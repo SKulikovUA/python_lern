@@ -1,63 +1,61 @@
-#!/usr/bin/python
+#!env python
 
-telephoneBook = dict()
+DELIM = "\t\t\t"
+
+telephone_book = {}
 
 choose = {"Q", "A", "U", "L", "D"}
 
-def nameExists(_name):
-    if telephoneBook.get(_name) != None:
-        return True
-    else:
-        return False
+def name_exists(name):
+    return name in telephone_book
 
 def append():
     while True:
         name = input("Name : ")
-        if nameExists(name) :
+        if name_exists(name) :
             print(f"Name {name} already exists. Try another name.")
         else:
             number = input(f"{name} telephone number : ")
-            telephoneBook[name] = number
+            telephone_book[name] = number
             break
 
 def update():
-    if len(telephoneBook) == 0:
+    if len(telephone_book) == 0:
         print("Nothing to update")
         return
     while True:
-        list()
+        show()
         name = input("Name : ")
-        if nameExists(name):
+        if name_exists(name):
             number = input("New number : ")
-            telephoneBook[name] = number
+            telephone_book[name] = number
             break
         else:
             print("Name doesn't present. Please try again")
 
-def list():
-    delim = "\t\t\t"
-    print(f"Name:{delim}Number:")
-    for name, number in telephoneBook.items():
-        print(f"{name}{delim}{number}")
+def show():
+    print(f"Name:{DELIM}Number:")
+    for name, number in telephone_book.items():
+        print(f"{name}{DELIM}{number}")
 
 def delete():
-    list()
-    if len(telephoneBook) == 0:
+    show()
+    if len(telephone_book) == 0:
         print("Nothing to delete")
         return
 
     while True:
         name = input("Name for remove: ")
-        if not nameExists(name):
+        if not name_exists(name):
             print(f"Name {name} not exists. Please try again")
             continue
         else:
-            telephoneBook.pop(name)
+            del telephone_book[name]
             break
 
 while True:
     print("(A)ppend (U)pdate (L)ist (D)elete (Q)uit")
-    inp = input("Your choose : ").capitalize()
+    inp = input("Your choose : ").strip().upper()
     if inp in choose:
         if inp == "Q":
             exit()
@@ -66,7 +64,7 @@ while True:
         elif inp == "U":
             update()
         elif inp == "L":
-            list()
+            show()
         elif inp == "D":
             delete()
     else:
